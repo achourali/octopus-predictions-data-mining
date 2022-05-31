@@ -26,6 +26,13 @@ def cleanMatches(matches):
     return cleanData
 
 
+def restructuringData(matches):
+    newStructure = {'data': [], 'attributes': []}
+    for match in matches:
+        newStructure['data'].append([match['homeTeam'], match['awayTeam']])
+    return newStructure
+
+
 def createTarget(matches):
     target = []
     for match in matches:
@@ -41,4 +48,7 @@ def createTarget(matches):
 if __name__ == "__main__":
     matches = getMatches('6250d75e81afe4381753aade')
     matches = cleanMatches(matches)
-    target=createTarget(matches)
+    target = createTarget(matches)
+    matches=restructuringData(matches)
+    
+
