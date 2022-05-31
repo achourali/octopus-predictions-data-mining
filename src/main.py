@@ -10,6 +10,9 @@ def getMatches(leagueId):
 
 def cleanMatches(matches):
     for match in matches:
+        if(match['finished']==False):
+            matches.remove(match)
+            continue
         del(match['_id'])
         del(match['date'])
         del(match['flashscoreId'])
@@ -29,7 +32,8 @@ def cleanMatches(matches):
 
 
 
+
 if __name__ == "__main__":
-    matches = getMatches('6250d75e81afe4381753aade')
-    cleanMatches(matches)
-    print(matches[0])
+    matches = getMatches('6250d82b81afe4381753aefa')
+    cleanMatches(matches) 
+    print(len(matches))
