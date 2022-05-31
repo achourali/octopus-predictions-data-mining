@@ -1,6 +1,8 @@
 import requests
 import json
 import pandas as pd
+from sklearn import naive_bayes
+from sklearn.model_selection import train_test_split
 
 
 def getMatches(leagueId):
@@ -28,13 +30,13 @@ def cleanMatches(matches):
 
 
 def restructuringData(matches):
-    homeTeam=[]
-    awayTeam=[]
+    homeTeam = []
+    awayTeam = []
     for match in matches:
         homeTeam.append(match['homeTeam'])
         awayTeam.append(match['awayTeam'])
-        
-    df=pd.DataFrame({'homeTeam':homeTeam,'awayTeam':awayTeam})
+
+    df = pd.DataFrame({'homeTeam': homeTeam, 'awayTeam': awayTeam})
     return pd.get_dummies(df)
 
 
@@ -50,10 +52,26 @@ def createTarget(matches):
     return target
 
 
+def average_score(classifier, data, target):
+    sum = 0
+    cycles = 1000
+
+    for i in range(1, cycles):
+
+        train_data, test_data, train_target, test_target = train_test_split(
+            data, target, test_size=0.2)
+        classifier.fit(train_data, train_target)
+        sum += classifier.score(test_data, test_target)
+        
+    return sum/cycles
+
+
 if __name__ == "__main__":
     matches = getMatches('6250d75e81afe4381753aade')
     matches = cleanMatches(matches)
     target = createTarget(matches)
-    print(restructuringData(matches))
-    
+    data = restructuringData(matches)
 
+    nb_clf = naive_bayes.MultinomialNB(fit_prior=True)
+
+    print(average_score(nb_clf, data, target))
