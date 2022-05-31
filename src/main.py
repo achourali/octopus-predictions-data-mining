@@ -16,7 +16,6 @@ def cleanMatches(matches):
     for match in matches:
         cleanMatch = {}
         if(match['finished'] == False):
-            matches.remove(match)
             continue
         cleanMatch['homeTeam'] = match['homeTeam']['name']
         cleanMatch['awayTeam'] = match['awayTeam']['name']
