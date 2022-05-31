@@ -1,5 +1,6 @@
 import requests
 import json
+import pandas as pd
 
 
 def getMatches(leagueId):
@@ -27,10 +28,12 @@ def cleanMatches(matches):
 
 
 def restructuringData(matches):
-    newStructure = {'data': [], 'attributes': []}
+    homeTeam=[]
+    awayTeam=[]
     for match in matches:
-        newStructure['data'].append([match['homeTeam'], match['awayTeam']])
-    return newStructure
+        homeTeam.append(match['homeTeam'])
+        awayTeam.append(match['awayTeam'])
+    return pd.DataFrame({'homeTeam':homeTeam,'awayTeam':awayTeam})
 
 
 def createTarget(matches):
@@ -49,6 +52,6 @@ if __name__ == "__main__":
     matches = getMatches('6250d75e81afe4381753aade')
     matches = cleanMatches(matches)
     target = createTarget(matches)
-    matches=restructuringData(matches)
+    print(restructuringData(matches))
     
 
