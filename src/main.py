@@ -26,10 +26,19 @@ def cleanMatches(matches):
     return cleanData
 
 
+def createTarget(matches):
+    target = []
+    for match in matches:
+        if(match['homeTeamGoals'] > match['awayTeamGoals']):
+            target.append('home')
+        elif(match['homeTeamGoals'] < match['awayTeamGoals']):
+            target.append('away')
+        else:
+            target.append('draw')
+    return target
 
 
 if __name__ == "__main__":
-    matches = getMatches('6250d82b81afe4381753aefa')
+    matches = getMatches('6250d75e81afe4381753aade')
     matches = cleanMatches(matches)
-    # target=createTarget(matches)
-    print(matches[0])
+    target=createTarget(matches)
