@@ -33,7 +33,9 @@ def restructuringData(matches):
     for match in matches:
         homeTeam.append(match['homeTeam'])
         awayTeam.append(match['awayTeam'])
-    return pd.DataFrame({'homeTeam':homeTeam,'awayTeam':awayTeam})
+        
+    df=pd.DataFrame({'homeTeam':homeTeam,'awayTeam':awayTeam})
+    return pd.get_dummies(df)
 
 
 def createTarget(matches):
