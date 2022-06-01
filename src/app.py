@@ -15,7 +15,7 @@ classifiers= pd.read_pickle(f'src/models/{leagueId}.classifiers.pkl')
 
 homeTeam='tunisia'
 awayTeam='france'
-date='2021-09-05T16:00:00.000Z'
+date='2022-11-30T15:00:00.000Z'
 date=datetime.strptime(date,'%Y-%m-%dT%H:%M:%S.%fZ').toordinal()
 match_row=[]
 
@@ -41,10 +41,37 @@ predictions=[]
 for index,classifier in classifiers.iterrows():
     prediction=[]
     for target_label in params['targets_keys']:
-        prediction.append(classifier[target_label].predict(data_to_predict))
+        prediction.append(classifier[target_label].predict(data_to_predict)[0])
     predictions.append(prediction)
 
 
 predictions=pd.DataFrame(predictions,columns=params['targets_keys'])
 
 print(predictions)
+
+response={}
+
+for target_label in params['targets_keys']:
+    most_common_value=predictions.loc[:,target_label].value_counts().index.tolist()[0]
+    
+    if(target_label=='result'):
+        percent=predictions.loc[:,target_label].value_counts()[most_common_value]/predictions.loc[:,target_label].count()
+
+        if(percent==1):
+            percent=0.9        
+        response[target_label]={most_common_value:percent}
+    else:
+        
+        if(most_common_value!=1):
+            percent=0.1
+        else:
+            percent=predictions.loc[:,target_label].value_counts()[most_common_value]/predictions.loc[:,target_label].count()
+
+        if(percent==1):
+            percent=0.9
+            
+        response[target_label]=percent
+
+print(response)
+        
+
