@@ -5,9 +5,9 @@ import pandas as pd
 
 def predict_match(leagueId, homeTeam, awayTeam, date):
 
-    with open(f'src/models/{leagueId}.params.pkl', 'rb') as handle:
+    with open(f'./models/{leagueId}.params.pkl', 'rb') as handle:
         params = pickle.load(handle)
-    classifiers = pd.read_pickle(f'src/models/{leagueId}.classifiers.pkl')
+    classifiers = pd.read_pickle(f'./models/{leagueId}.classifiers.pkl')
 
     date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S.%fZ').toordinal()
     match_row = []
@@ -65,4 +65,6 @@ def predict_match(leagueId, homeTeam, awayTeam, date):
                 percent = 0.9
 
             response[target_label] = percent
+            
+    return response
 
