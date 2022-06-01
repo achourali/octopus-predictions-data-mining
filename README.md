@@ -10,3 +10,9 @@ The name is inspired from Paul the famous octopus of the world cup 2010
 
 <img src="./assets/Paul.jpg" alt="Paul image" style="float: left; margin-right: 10px;" />
 
+### to run flask app
+- python3 -m pip install -r requirements.txt
+- export FLASK_APP=src/server
+- export FLASK_ENV=development
+- python3 -m flask run
+
