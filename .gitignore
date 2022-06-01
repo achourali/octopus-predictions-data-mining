@@ -3,3 +3,4 @@
 /lib
 /lib64
 /src/models
+/src/__pycache__
